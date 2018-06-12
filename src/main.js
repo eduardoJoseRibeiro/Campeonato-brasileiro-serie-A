@@ -5,6 +5,7 @@ new Vue({
   el: '#app',
   data : {
     titulo : "Minha primeira aplicação Vue.js",
+    colunas : ['nome', 'pontos', 'gm', 'gs', 'saldo'],
     times : [
       new Time('Palmeiras',     require('./assets/palmeiras_60x60.png')),
       new Time('Flamengo',      require('./assets/flamengo_60x60.png')),
@@ -36,7 +37,8 @@ new Vue({
         time : null,
         gols : 0      
       }
-    }
+    },
+    view : 'tabela'
   },
   methods : {
     fimDeJogo(){
@@ -45,13 +47,31 @@ new Vue({
       let golsAdversario = +this.novoJogo.fora.gols;
 
       this.novoJogo.casa.time.fimDeJogo( timeAdversario, gols, golsAdversario );
+
+      this.showView('tabela');
+    },
+    criaJogo(){
+      this.novoJogo.casa.time = this.times[Math.floor(Math.random() * 20)];
+      this.novoJogo.casa.gols = 0;
+  
+      this.novoJogo.fora.time = this.times[Math.floor(Math.random() * 20)];
+      this.novoJogo.fora.gols = 0;
+
+      this.showView('form');
+    },
+    verTabela(){
+      this.showView('tabela');
+    },
+    showView(view){
+      this.view = view;
     }
   },
-  created(){
-    this.novoJogo.casa.time = this.times[Math.floor(Math.random() * 20)];
-    this.novoJogo.casa.gols = 0;
-
-    this.novoJogo.fora.time = this.times[Math.floor(Math.random() * 20)];
-    this.novoJogo.fora.gols = 0;
+  filters : {
+    saldo( time ){
+      return time.gm - time.gs;
+    },
+    uppercase( value ){
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    }
   }
 })
