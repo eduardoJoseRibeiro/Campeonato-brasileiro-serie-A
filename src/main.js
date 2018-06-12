@@ -1,11 +1,16 @@
 import Vue from 'vue'
 import Time from './Time.js'
+import _ from 'lodash'
 
 new Vue({
   el: '#app',
   data : {
     titulo : "Minha primeira aplicação Vue.js",
     colunas : ['nome', 'pontos', 'gm', 'gs', 'saldo'],
+    order : {
+      key : [ 'pontos', 'gm', 'gs'],
+      sort : ['desc', 'desc', 'asc']
+    },  
     times : [
       new Time('Palmeiras',     require('./assets/palmeiras_60x60.png')),
       new Time('Flamengo',      require('./assets/flamengo_60x60.png')),
@@ -39,6 +44,12 @@ new Vue({
       }
     },
     view : 'tabela'
+  },
+  computed : {
+
+    timesFiltered(){
+      return _.orderBy( this.times, this.order.key, this.order.sort );
+    }
   },
   methods : {
     fimDeJogo(){

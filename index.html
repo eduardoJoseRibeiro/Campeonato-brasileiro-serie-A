@@ -28,7 +28,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(time, index) in times">
+                <tr v-for="time in timesFiltered">
                   <td>
                     <img :src="time.escudo" :alt="time.nome" style="width: 30px; height: 30px;">
                     {{ time.nome }}
